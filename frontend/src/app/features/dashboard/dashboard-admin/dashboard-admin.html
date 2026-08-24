@@ -1,0 +1,697 @@
+<div class="lm-root" style="font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;background:#F7F7F9;">
+ 
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+ 
+    .lm-root {
+      --blue:#3B5BDB;--blue-soft:#EEF2FF;--blue-mid:#C5D0FA;
+      --violet:#7048E8;--violet-soft:#F3F0FF;
+      --teal:#0C9670;--teal-soft:#EDFAF5;
+      --amber:#B45309;--amber-soft:#FFF4DE;
+      --red:#DC2626;--red-soft:#FFF0F0;
+      --dark:#0D0F1A;--mid:#6B7080;--faint:#F0F1F5;
+      --border:rgba(13,15,26,0.07);
+      --rs:10px;--rm:16px;--rl:22px;--rxl:28px;
+    }
+ 
+    .lm-header{background:rgba(247,247,249,0.85);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;height:64px;display:flex;align-items:center;padding:0 36px;gap:20px;}
+    .lm-logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+    .logo-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#3B5BDB,#7048E8);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(59,91,219,.28);}
+    .logo-text{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:var(--dark);letter-spacing:-.3px;}
+    .logo-text span{color:var(--blue);}
+    .admin-pill{padding:3px 10px;border-radius:999px;background:linear-gradient(135deg,#3B5BDB,#7048E8);color:#fff;font-size:10px;font-weight:700;letter-spacing:.07em;}
+    .lm-nav{display:flex;align-items:center;gap:2px;margin-left:6px;}
+    .nav-btn{background:none;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:500;color:var(--mid);padding:7px 13px;border-radius:var(--rs);transition:all .15s;display:flex;align-items:center;gap:7px;}
+    .nav-btn:hover{color:var(--dark);background:rgba(13,15,26,.05);}
+    .nav-btn.active{color:var(--blue);background:var(--blue-soft);font-weight:600;}
+    .nav-chip{padding:2px 7px;border-radius:999px;font-size:10.5px;font-weight:700;}
+    .chip-gray{background:rgba(13,15,26,.07);color:var(--mid);}
+    .chip-amber{background:#FFF4DE;color:#B45309;}
+    .hdr-right{margin-left:auto;display:flex;align-items:center;gap:6px;}
+    .icon-btn{width:36px;height:36px;border-radius:var(--rs);border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--mid);transition:all .15s;}
+    .icon-btn:hover{background:var(--faint);color:var(--dark);}
+    .icon-btn.red:hover{background:#FFF0F0;color:#E03131;}
+    .profile-btn{height:36px;padding:0 14px;border-radius:var(--rs);background:var(--faint);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;color:var(--dark);transition:all .15s;}
+    .profile-btn:hover{background:var(--blue-soft);border-color:var(--blue-mid);color:var(--blue);}
+    .ava{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#3B5BDB,#7048E8);display:flex;align-items:center;justify-content:center;}
+ 
+    .lm-main{max-width:1160px;margin:0 auto;padding:36px 36px 80px;}
+ 
+    /* HERO */
+    .hero{position:relative;border-radius:var(--rxl);overflow:hidden;margin-bottom:40px;padding:38px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;min-height:156px;}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#EEF2FF 0%,#F3F0FF 40%,#EEF2FF 70%,#EDFAF5 100%);}
+    .orb1{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(59,91,219,.11) 0%,transparent 70%);top:-70px;right:60px;pointer-events:none;}
+    .orb2{position:absolute;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(112,72,232,.09) 0%,transparent 70%);bottom:-50px;right:260px;pointer-events:none;}
+    .orb3{position:absolute;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(12,150,112,.08) 0%,transparent 70%);top:10px;left:340px;pointer-events:none;}
+    .hero-text{position:relative;z-index:1;flex:1;max-width:460px;}
+    .eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+    .eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:blink 2s ease-in-out infinite;}
+    @keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+    .hero-title{font-family:'Sora',sans-serif;font-size:28px;font-weight:800;color:var(--dark);letter-spacing:-.6px;line-height:1.16;margin:0 0 8px;}
+    .hero-title span{background:linear-gradient(90deg,#3B5BDB,#7048E8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .hero-sub{font-size:13.5px;color:var(--mid);line-height:1.55;margin:0;}
+    .hero-pills{position:relative;z-index:1;display:flex;flex-direction:column;gap:9px;flex-shrink:0;}
+    .stat-pill{display:flex;align-items:center;gap:10px;padding:10px 18px 10px 12px;border-radius:999px;border:1.5px solid rgba(255,255,255,.85);background:rgba(255,255,255,.78);backdrop-filter:blur(8px);font-size:13px;font-weight:600;color:#4A4F6A;white-space:nowrap;}
+    .pill-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+ 
+    .msg-ok{padding:12px 16px;background:#EDFAF5;border:1px solid #9EE5CB;border-radius:var(--rm);font-size:13px;color:#0C9670;display:flex;align-items:center;gap:8px;margin-bottom:20px;}
+    .msg-err{padding:12px 16px;background:#FFF0F0;border:1px solid #FCA5A5;border-radius:var(--rm);font-size:13px;color:#DC2626;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+    .msg-err button{background:none;border:none;cursor:pointer;color:#DC2626;font-size:16px;line-height:1;}
+ 
+    .panel{background:#fff;border-radius:var(--rl);border:1px solid var(--border);overflow:hidden;}
+    .panel-hdr{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+    .panel-hdr-l{display:flex;align-items:center;gap:12px;}
+    .panel-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .pi-blue{background:var(--blue-soft);}
+    .pi-amber{background:#FFF4DE;}
+    .pi-teal{background:#EDFAF5;}
+    .pi-violet{background:var(--violet-soft);}
+    .pi-gray{background:var(--faint);}
+    .panel-title{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--dark);letter-spacing:-.2px;}
+    .panel-sub{font-size:12px;color:var(--mid);margin-top:2px;}
+    .refresh-btn{background:none;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;font-weight:600;color:var(--blue);display:flex;align-items:center;gap:5px;transition:opacity .15s;}
+    .refresh-btn:hover{opacity:.65;}
+ 
+    .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 32px;gap:14px;}
+    .empty-icon{width:52px;height:52px;border-radius:16px;background:var(--faint);display:flex;align-items:center;justify-content:center;}
+    .empty-text{font-size:14px;color:var(--mid);font-weight:500;}
+ 
+    .user-row{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;transition:background .12s;}
+    .user-row:hover{background:#FAFBFD;}
+    .user-row+.user-row{border-top:1px solid var(--border);}
+    .u-ava{width:42px;height:42px;border-radius:13px;background:var(--blue-soft);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--blue);flex-shrink:0;position:relative;}
+    .u-ava.admin-ava{background:linear-gradient(135deg,#EEF2FF,#F3F0FF);}
+    .u-dot{position:absolute;bottom:-3px;right:-3px;width:12px;height:12px;border-radius:50%;border:2px solid #fff;background:#0C9670;}
+    .u-name{font-size:14px;font-weight:600;color:var(--dark);}
+    .u-email{font-size:12px;color:var(--mid);margin-top:1px;}
+    .role-badge{padding:4px 11px;border-radius:999px;font-size:11px;font-weight:700;}
+    .rb-admin{background:linear-gradient(135deg,#EEF2FF,#F3F0FF);color:var(--blue);}
+    .rb-user{background:var(--faint);color:var(--mid);}
+    .role-btn{padding:7px 13px;border-radius:var(--rs);border:1px solid var(--border);background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:var(--mid);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px;}
+    .role-btn:hover{border-color:var(--blue-mid);color:var(--blue);background:var(--blue-soft);}
+ 
+    .pending-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:20px;}
+    .pcard{background:#FAFBFD;border:1px solid var(--border);border-radius:var(--rm);overflow:hidden;transition:all .2s;}
+    .pcard:hover{border-color:rgba(59,91,219,.2);box-shadow:0 8px 32px rgba(59,91,219,.07);}
+    .pcard-img{height:120px;background:var(--faint);position:relative;overflow:hidden;}
+    .pcard-img img{width:100%;height:100%;object-fit:cover;}
+    .pcard-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#EEF2FF,#F3F0FF);}
+    .pcard-body{padding:14px 16px;}
+    .pcard-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--dark);letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .pcard-author{font-size:12px;color:var(--mid);margin-top:2px;}
+    .pcard-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+    .pcard-actions{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+ 
+    .tp{padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:700;}
+    .tp-FILM{background:#EEF2FF;color:#3B5BDB;}
+    .tp-BOOK{background:#FFF4DE;color:#B45309;}
+    .tp-GAME{background:var(--violet-soft);color:var(--violet);}
+    .tp-PODCAST{background:#EDFAF5;color:#0C9670;}
+    .sp{padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:700;}
+    .sp-AVAILABLE{background:#EDFAF5;color:#0C9670;}
+    .sp-PENDING{background:#FFF4DE;color:#B45309;}
+    .sp-REJECTED{background:#FFF0F0;color:#DC2626;}
+    .sp-UNAVAILABLE{background:var(--faint);color:var(--mid);}
+    .owner-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:600;background:var(--blue-soft);color:var(--blue);}
+ 
+    .btn-approve{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 10px;border-radius:var(--rs);border:1px solid #9EE5CB;background:#EDFAF5;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:#0C9670;cursor:pointer;transition:all .15s;}
+    .btn-approve:hover{background:#D1FAE5;}
+    .btn-reject{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 10px;border-radius:var(--rs);border:1px solid #FCA5A5;background:#FFF0F0;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:#DC2626;cursor:pointer;transition:all .15s;}
+    .btn-reject:hover{background:#FEE2E2;}
+    .btn-edit{display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 12px;border-radius:var(--rs);border:1px solid #BFDBFE;background:#EFF6FF;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:#2563EB;cursor:pointer;transition:all .15s;}
+    .btn-edit:hover{background:#DBEAFE;}
+    .btn-del{display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 12px;border-radius:var(--rs);border:1px solid #FCA5A5;background:#FFF0F0;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:#DC2626;cursor:pointer;transition:all .15s;}
+    .btn-del:hover{background:#FEE2E2;}
+ 
+    .media-row{display:flex;align-items:flex-start;gap:16px;padding:18px 24px;transition:background .12s;}
+    .media-row:hover{background:#FAFBFD;}
+    .media-row+.media-row{border-top:1px solid var(--border);}
+    .m-thumb{width:54px;height:74px;border-radius:10px;object-fit:cover;flex-shrink:0;}
+    .m-thumb-ph{width:54px;height:74px;border-radius:10px;background:var(--faint);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .m-title{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--dark);letter-spacing:-.2px;}
+    .m-author{font-size:12.5px;color:var(--mid);margin-top:2px;}
+    .m-desc{font-size:12px;color:var(--mid);margin-top:7px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .m-tags{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:10px;}
+    .m-actions{display:flex;gap:7px;flex-shrink:0;}
+ 
+    .modal-bg{background:rgba(13,15,26,.48);display:flex;align-items:center;justify-content:center;padding:24px;min-height:500px;}
+    .modal-box{background:#fff;border-radius:var(--rxl);max-width:540px;width:100%;padding:30px;max-height:86vh;overflow-y:auto;box-shadow:0 40px 90px rgba(13,15,26,.18);}
+    .modal-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:var(--dark);margin:0 0 22px;letter-spacing:-.3px;}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .form-group{display:flex;flex-direction:column;gap:5px;}
+    .form-label{font-size:11.5px;font-weight:600;color:var(--mid);letter-spacing:.03em;}
+    .form-input{padding:9px 13px;border:1.5px solid var(--border);border-radius:var(--rs);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--dark);outline:none;transition:border-color .15s;width:100%;box-sizing:border-box;}
+    .form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,91,219,.10);}
+    .form-textarea{resize:none;}
+    .modal-actions{display:flex;gap:12px;margin-top:24px;}
+    .btn-save{flex:1;padding:11px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,#3B5BDB,#6741D9);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .18s;}
+    .btn-save:hover{box-shadow:0 6px 20px rgba(59,91,219,.32);}
+    .btn-cancel{flex:1;padding:11px;border-radius:var(--rs);border:1px solid var(--border);background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:var(--mid);cursor:pointer;transition:all .15s;}
+    .btn-cancel:hover{background:var(--faint);}
+ 
+    .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;}
+    .scard{background:#fff;border-radius:var(--rm);border:1px solid var(--border);padding:20px 20px 18px;}
+    .scard-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+    .scard-label{font-size:11.5px;font-weight:600;color:var(--mid);letter-spacing:.03em;margin-bottom:5px;}
+    .scard-val{font-family:'Sora',sans-serif;font-size:28px;font-weight:800;color:var(--dark);letter-spacing:-.5px;}
+ 
+    .bars-card{background:#fff;border-radius:var(--rm);border:1px solid var(--border);padding:22px;}
+    .bars-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--dark);margin-bottom:18px;}
+    .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+    .bar-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .bar-key{font-size:12px;font-weight:600;color:var(--mid);width:120px;flex-shrink:0;}
+    .bar-track{flex:1;height:7px;background:var(--faint);border-radius:4px;overflow:hidden;}
+    .bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--violet));}
+    .bar-n{font-size:12px;font-weight:700;color:var(--dark);width:22px;text-align:right;}
+ 
+    .bc-card{background:#fff;border-radius:var(--rm);border:1px solid var(--border);padding:22px;}
+    .bc-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+    .bc-icon{width:34px;height:34px;border-radius:10px;background:var(--violet-soft);display:flex;align-items:center;justify-content:center;}
+    .bc-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--dark);}
+    .bc-sub{font-size:12px;color:var(--mid);margin-top:1px;}
+    .bc-ta{width:100%;border:1.5px solid var(--border);border-radius:var(--rs);padding:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;resize:none;outline:none;color:var(--dark);transition:border-color .15s;box-sizing:border-box;}
+    .bc-ta:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(112,72,232,.10);}
+    .bc-btn{width:100%;margin-top:12px;padding:11px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--violet),#8B5CF6);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:7px;}
+    .bc-btn:hover:not(:disabled){box-shadow:0 6px 20px rgba(112,72,232,.32);}
+    .bc-btn:disabled{opacity:.5;cursor:not-allowed;}
+    .bc-sent{background:linear-gradient(135deg,#0C9670,#12B886)!important;}
+ 
+    .nrow{display:flex;align-items:flex-start;gap:14px;padding:16px 24px;transition:background .12s;}
+    .nrow:hover{background:#FAFBFD;}
+    .nrow+.nrow{border-top:1px solid var(--border);}
+    .nrow.unread{background:#F5F7FF;}
+    .nrow.unread:hover{background:#EEF2FF;}
+    .n-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .n-msg{font-size:13.5px;color:var(--dark);line-height:1.5;margin:0 0 4px;}
+    .n-meta{font-size:11.5px;color:var(--mid);}
+    .n-ref{font-size:11px;color:var(--mid);margin-top:2px;}
+    .n-sbadge{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;}
+    .nb-read{background:var(--faint);color:var(--mid);}
+    .nb-unread{background:#DBEAFE;color:#1D4ED8;}
+ 
+    .fsel{border:1.5px solid var(--border);border-radius:var(--rs);padding:7px 12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--dark);outline:none;background:#fff;cursor:pointer;}
+    .fsel:focus{border-color:var(--blue);}
+ 
+    .pager{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-top:1px solid var(--border);}
+    .pager-info{font-size:12.5px;color:var(--mid);font-weight:500;}
+    .pager-btns{display:flex;gap:7px;}
+    .pager-btn{padding:6px 14px;border-radius:var(--rs);border:1px solid var(--border);background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;font-weight:600;color:var(--mid);cursor:pointer;transition:all .15s;}
+    .pager-btn:hover:not(:disabled){border-color:var(--blue-mid);color:var(--blue);background:var(--blue-soft);}
+    .pager-btn:disabled{opacity:.35;cursor:not-allowed;}
+ 
+    /* GRID LAYOUT */
+    .g2-1{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:20px;}
+ 
+    @media(max-width:960px){
+      .stat-row{grid-template-columns:repeat(2,1fr);}
+      .g2-1{grid-template-columns:1fr;}
+      .pending-grid{grid-template-columns:1fr;}
+      .lm-main{padding:24px 16px 60px;}
+      .lm-header{padding:0 16px;}
+      .hero{flex-direction:column;padding:28px 24px;}
+    }
+  </style>
+ 
+  <header class="lm-header">
+    <a routerLink="/" class="flex items-center gap-2 no-underline flex-shrink-0">
+      <img src="logo.png" alt="Lumina Media Logo" class="h-16 w-auto" />
+    </a>
+ 
+    <nav class="lm-nav">
+      <button (click)="switchTab('users')" class="nav-btn" [class.active]="activeTab === 'users'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Utilisateurs
+        <span class="nav-chip chip-gray">{{ users().length }}</span>
+      </button>
+      <button (click)="switchTab('pending')" class="nav-btn" [class.active]="activeTab === 'pending'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        En attente
+        <span *ngIf="pendingMedia().length > 0" class="nav-chip chip-amber">{{ pendingMedia().length }}</span>
+      </button>
+      <button (click)="switchTab('all')" class="nav-btn" [class.active]="activeTab === 'all'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+        Tous les médias
+        <span class="nav-chip chip-gray">{{ allMedia().length }}</span>
+      </button>
+      <button (click)="switchTab('notifications')" class="nav-btn" [class.active]="activeTab === 'notifications'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        Notifications
+      </button>
+    </nav>
+ 
+    <div class="hdr-right">
+      <button (click)="router.navigate(['/profile'])" class="profile-btn">
+        <div class="ava"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        Profil
+      </button>
+      <button (click)="logout()" class="icon-btn red" aria-label="Déconnexion">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </div>
+  </header>
+ 
+  <main class="lm-main">
+ 
+    <div class="hero">
+      <div class="hero-bg"></div><div class="orb1"></div><div class="orb2"></div><div class="orb3"></div>
+      <div class="hero-text">
+        <div class="eyebrow"><span class="eyebrow-dot"></span>Panneau d'administration</div>
+        <h1 class="hero-title">Gérez votre<br><span>plateforme</span></h1>
+        <p class="hero-sub">Utilisateurs, rôles, médias et notifications — maîtrisez chaque détail.</p>
+      </div>
+      <div class="hero-pills">
+        <div class="stat-pill">
+          <div class="pill-icon" style="background:var(--blue-soft);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          {{ adminCount }} admin · {{ userCount }} membres
+        </div>
+        <div class="stat-pill">
+          <div class="pill-icon" style="background:#FFF4DE;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          {{ pendingMedia().length }} en attente de validation
+        </div>
+        <div class="stat-pill">
+          <div class="pill-icon" style="background:#EDFAF5;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0C9670" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          </div>
+          {{ allMedia().length }} médias au catalogue
+        </div>
+      </div>
+    </div>
+ 
+    <div *ngIf="successMessage" class="msg-ok">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      {{ successMessage }}
+    </div>
+    <div *ngIf="error" class="msg-err">
+      <span>{{ error }}</span>
+      <button (click)="clearError()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+ 
+    <div *ngIf="activeTab === 'users'" class="panel">
+      <div class="panel-hdr">
+        <div class="panel-hdr-l">
+          <div class="panel-icon pi-blue">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <div class="panel-title">Membres de la plateforme</div>
+            <div class="panel-sub">{{ adminCount }} administrateurs · {{ userCount }} utilisateurs</div>
+          </div>
+        </div>
+        <button (click)="loadUsers()" class="refresh-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.18-7.47"/></svg>
+          Actualiser
+        </button>
+      </div>
+ 
+      <div *ngIf="loading()" class="empty">
+        <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B0B4C8" stroke-width="1.5" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>
+        <span class="empty-text">Chargement…</span>
+      </div>
+      <div *ngIf="!loading() && users().length === 0" class="empty">
+        <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B0B4C8" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+        <span class="empty-text">Aucun utilisateur trouvé.</span>
+      </div>
+ 
+      <div *ngIf="!loading() && users().length > 0">
+        <div *ngFor="let user of users()" class="user-row">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div class="u-ava" [class.admin-ava]="user.role === 'ADMIN'">
+              {{ user.firstName.charAt(0).toUpperCase() }}{{ user.lastName.charAt(0).toUpperCase() }}
+              <span class="u-dot" *ngIf="user.role === 'ADMIN'" style="background:#3B5BDB;"></span>
+              <span class="u-dot" *ngIf="user.role !== 'ADMIN'"></span>
+            </div>
+            <div>
+              <div class="u-name">{{ user.firstName }} {{ user.lastName }}</div>
+              <div class="u-email">{{ user.email }}</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="role-badge" [ngClass]="user.role === 'ADMIN' ? 'rb-admin' : 'rb-user'">
+              <span *ngIf="user.role === 'ADMIN'" style="display:inline-flex;align-items:center;gap:4px;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                ADMIN
+              </span>
+              <span *ngIf="user.role !== 'ADMIN'">USER</span>
+            </span>
+            <button (click)="toggleRole(user)" class="role-btn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+              {{ user.role === 'ADMIN' ? 'Rétrograder' : 'Promouvoir' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <div *ngIf="activeTab === 'pending'" class="panel">
+      <div class="panel-hdr">
+        <div class="panel-hdr-l">
+          <div class="panel-icon pi-amber">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="panel-title">Médias en attente de validation</div>
+            <div class="panel-sub">Soumis par les membres — à approuver ou rejeter</div>
+          </div>
+        </div>
+        <button (click)="loadPendingMedia()" class="refresh-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.18-7.47"/></svg>
+          Actualiser
+        </button>
+      </div>
+ 
+      <div *ngIf="loadingMedia()" class="empty">
+        <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B0B4C8" stroke-width="1.5" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>
+        <span class="empty-text">Chargement…</span>
+      </div>
+ 
+      <div *ngIf="!loadingMedia() && pendingMedia().length === 0" class="empty">
+        <div class="empty-icon" style="background:#EDFAF5;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0C9670" stroke-width="1.8" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <span class="empty-text">Aucun média en attente — tout est à jour !</span>
+      </div>
+ 
+      <div *ngIf="!loadingMedia() && pendingMedia().length > 0" class="pending-grid">
+        <div *ngFor="let media of pendingMedia()" class="pcard">
+          <div class="pcard-img">
+            <img *ngIf="media.imageUrl" [src]="media.imageUrl" [alt]="media.title"/>
+            <div *ngIf="!media.imageUrl" class="pcard-img-ph">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C5D0FA" stroke-width="1.2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+            </div>
+            <div style="position:absolute;top:10px;left:10px;display:flex;gap:5px;">
+              <span class="tp" [ngClass]="'tp-' + media.type">{{ media.type }}</span>
+            </div>
+          </div>
+          <div class="pcard-body">
+            <div class="pcard-title">{{ media.title }}</div>
+            <div class="pcard-author">{{ media.author }}<span *ngIf="media.releaseYear"> · {{ media.releaseYear }}</span></div>
+            <div class="pcard-tags">
+              <span *ngIf="media.genre" style="padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:600;background:var(--faint);color:var(--mid);">{{ media.genre }}</span>
+              <span *ngIf="media.ownerUsername" class="owner-chip">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                {{ media.ownerUsername }}
+              </span>
+            </div>
+            <div class="pcard-actions">
+              <button (click)="approve(media.id)" class="btn-approve">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Approuver
+              </button>
+              <button (click)="reject(media.id)" class="btn-reject">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                Rejeter
+              </button>
+              <button (click)="startEdit(media)" class="btn-edit">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <div *ngIf="activeTab === 'all'" class="panel">
+      <div class="panel-hdr">
+        <div class="panel-hdr-l">
+          <div class="panel-icon" style="background:#EFF6FF;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          </div>
+          <div>
+            <div class="panel-title">Catalogue complet</div>
+            <div class="panel-sub">{{ allMedia().length }} médias — films, livres, jeux, podcasts</div>
+          </div>
+        </div>
+        <button (click)="loadAllMedia()" class="refresh-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.18-7.47"/></svg>
+          Actualiser
+        </button>
+      </div>
+ 
+      <div *ngIf="editingMedia" class="modal-bg">
+        <div class="modal-box">
+          <p class="modal-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2.2" stroke-linecap="round" style="vertical-align:-3px;margin-right:8px;"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+            Modifier «&nbsp;{{ editingMedia.title }}&nbsp;»
+          </p>
+          <div style="display:flex;flex-direction:column;gap:13px;">
+            <div class="form-group">
+              <label class="form-label">Titre *</label>
+              <input [(ngModel)]="editForm.title" class="form-input" placeholder="Titre du média"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Auteur / Réalisateur *</label>
+              <input [(ngModel)]="editForm.author" class="form-input" placeholder="Nom de l'auteur"/>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Type</label>
+                <select [(ngModel)]="editForm.type" class="form-input" style="cursor:pointer;">
+                  <option *ngFor="let t of mediaTypes" [value]="t">{{ t }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Genre</label>
+                <input [(ngModel)]="editForm.genre" class="form-input" placeholder="Ex : Action, Sci-Fi…"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Année de sortie</label>
+              <input [(ngModel)]="editForm.releaseYear" type="number" class="form-input" placeholder="2024"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description</label>
+              <textarea [(ngModel)]="editForm.description" rows="3" class="form-input form-textarea" placeholder="Courte description…"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">URL de l'image</label>
+              <input [(ngModel)]="editForm.imageUrl" class="form-input" placeholder="https://…"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">URL du contenu</label>
+              <input [(ngModel)]="editForm.contentUrl" class="form-input" placeholder="https://…"/>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button (click)="saveEdit()" class="btn-save">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline;vertical-align:-2px;margin-right:5px;"><polyline points="20 6 9 17 4 12"/></svg>
+              Enregistrer
+            </button>
+            <button (click)="cancelEdit()" class="btn-cancel">Annuler</button>
+          </div>
+        </div>
+      </div>
+ 
+      <div *ngIf="loadingAllMedia()" class="empty">
+        <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B0B4C8" stroke-width="1.5" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>
+        <span class="empty-text">Chargement du catalogue…</span>
+      </div>
+      <div *ngIf="!loadingAllMedia() && allMedia().length === 0" class="empty">
+        <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B0B4C8" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="2.18"/></svg></div>
+        <span class="empty-text">Aucun média dans le catalogue.</span>
+      </div>
+ 
+      <div *ngIf="!loadingAllMedia() && allMedia().length > 0">
+        <div *ngFor="let media of allMedia()" class="media-row">
+          <img *ngIf="media.imageUrl" [src]="media.imageUrl" [alt]="media.title" class="m-thumb"/>
+          <div *ngIf="!media.imageUrl" class="m-thumb-ph">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CBD0E0" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2.18"/></svg>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+              <div style="min-width:0;">
+                <div class="m-title">{{ media.title }}</div>
+                <div class="m-author">{{ media.author }}</div>
+              </div>
+              <div class="m-actions">
+                <button (click)="startEdit(media)" class="btn-edit">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                  Modifier
+                </button>
+                <button (click)="deleteMedia(media.id, media.title)" class="btn-del">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                  Supprimer
+                </button>
+              </div>
+            </div>
+            <div class="m-tags">
+              <span class="tp" [ngClass]="'tp-' + media.type">{{ media.type }}</span>
+              <span *ngIf="media.genre" style="padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:600;background:var(--faint);color:var(--mid);">{{ media.genre }}</span>
+              <span class="sp" [ngClass]="'sp-' + media.status">{{ getStatusText(media.status) }}</span>
+              <span *ngIf="media.ownerUsername" class="owner-chip">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                {{ media.ownerUsername }}
+              </span>
+            </div>
+            <p *ngIf="media.description" class="m-desc">{{ media.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <ng-container *ngIf="activeTab === 'notifications'">
+ 
+      <div class="stat-row">
+        <div class="scard">
+          <div class="scard-icon" style="background:var(--blue-soft);">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <div class="scard-label">Total envoyées</div>
+          <div class="scard-val">{{ notifStats()?.totalCount ?? '—' }}</div>
+        </div>
+        <div class="scard">
+          <div class="scard-icon" style="background:#EDFAF5;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0C9670" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="scard-label">Lues</div>
+          <div class="scard-val">{{ notifStats()?.readCount ?? '—' }}</div>
+        </div>
+        <div class="scard">
+          <div class="scard-icon" style="background:#FFF4DE;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="scard-label">Non lues</div>
+          <div class="scard-val">{{ notifStats()?.unreadCount ?? '—' }}</div>
+        </div>
+        <div class="scard">
+          <div class="scard-icon" style="background:#EFF6FF;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div class="scard-label">Taux d'ouverture</div>
+          <div class="scard-val">{{ notifStats()?.openRatePercent?.toFixed(1) ?? '—' }}%</div>
+        </div>
+      </div>
+ 
+      <div class="g2-1">
+        <div class="bars-card">
+          <div class="bars-title">Répartition par type</div>
+          <div *ngIf="countByTypeEntries.length === 0" style="font-size:13px;color:var(--mid);">Aucune donnée.</div>
+          <div *ngFor="let entry of countByTypeEntries" class="bar-row">
+            <div class="bar-icon" [ngClass]="getNotifTypeBadge(entry.key)">
+              <ng-container [ngSwitch]="entry.key">
+                <svg *ngSwitchCase="'LIKE'" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                <svg *ngSwitchCase="'COMMENT'" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <svg *ngSwitchCase="'FAVORITE'" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg *ngSwitchCase="'WATCHLIST'" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                <svg *ngSwitchCase="'MEDIA_APPROVED'" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg *ngSwitchCase="'MEDIA_REJECTED'" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <svg *ngSwitchCase="'BROADCAST'" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <svg *ngSwitchDefault width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </ng-container>
+            </div>
+            <span class="bar-key">{{ entry.key }}</span>
+            <div class="bar-track">
+              <div class="bar-fill" [style.width]="notifStats()?.totalCount ? (entry.value / notifStats()!.totalCount * 100) + '%' : '0%'"></div>
+            </div>
+            <span class="bar-n">{{ entry.value }}</span>
+          </div>
+        </div>
+ 
+        <div class="bc-card">
+          <div class="bc-hdr">
+            <div class="bc-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7048E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </div>
+            <div>
+              <div class="bc-title">Broadcast global</div>
+              <div class="bc-sub">Message vers tous les membres</div>
+            </div>
+          </div>
+          <textarea [value]="broadcastMsg()" (input)="broadcastMsg.set($any($event.target).value)" placeholder="Votre message pour tous les utilisateurs…" rows="4" class="bc-ta"></textarea>
+          <button (click)="sendBroadcast()" [disabled]="!broadcastMsg().trim() || broadcasting()" class="bc-btn" [class.bc-sent]="broadcastSent()">
+            <svg *ngIf="!broadcastSent() && !broadcasting()" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <svg *ngIf="broadcastSent()" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            {{ broadcastSent() ? 'Message envoyé !' : broadcasting() ? 'Envoi en cours…' : 'Envoyer à tous' }}
+          </button>
+        </div>
+      </div>
+ 
+      <div class="panel">
+        <div class="panel-hdr">
+          <div class="panel-hdr-l">
+            <div class="panel-icon pi-blue">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </div>
+            <div class="panel-title">Toutes les notifications</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <select [value]="notifTypeFilter()" (change)="notifTypeFilter.set($any($event.target).value); onTypeFilterChange()" class="fsel">
+              <option value="">Tous les types</option>
+              <option *ngFor="let t of notifTypes" [value]="t">{{ t }}</option>
+            </select>
+            <button (click)="loadNotifications(0)" class="refresh-btn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.18-7.47"/></svg>
+              Actualiser
+            </button>
+          </div>
+        </div>
+ 
+        <div *ngIf="loadingNotifs()" class="empty">
+          <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B0B4C8" stroke-width="1.5" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>
+          <span class="empty-text">Chargement…</span>
+        </div>
+ 
+        <div *ngIf="!loadingNotifs() && (!notifPage() || notifPage()!.content.length === 0)" class="empty">
+          <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B0B4C8" stroke-width="1.5" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div>
+          <span class="empty-text">Aucune notification.</span>
+        </div>
+ 
+        <div *ngIf="!loadingNotifs() && notifPage() && notifPage()!.content.length > 0">
+          <div *ngFor="let n of notifPage()!.content" class="nrow" [class.unread]="n.status === 'UNREAD'">
+            <div class="n-icon" [ngClass]="getNotifTypeBadge(n.type)">
+              <ng-container [ngSwitch]="n.type">
+                <svg *ngSwitchCase="'LIKE'" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/></svg>
+                <svg *ngSwitchCase="'COMMENT'" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <svg *ngSwitchCase="'FAVORITE'" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg *ngSwitchCase="'WATCHLIST'" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                <svg *ngSwitchCase="'MEDIA_APPROVED'" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg *ngSwitchCase="'MEDIA_REJECTED'" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <svg *ngSwitchCase="'BROADCAST'" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <svg *ngSwitchDefault width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </ng-container>
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px;">
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <span class="tp" [ngClass]="getNotifTypeBadge(n.type)" style="font-size:10px;">{{ n.type }}</span>
+                  <span [ngClass]="n.status === 'UNREAD' ? 'n-sbadge nb-unread' : 'n-sbadge nb-read'">{{ n.status }}</span>
+                  <span style="font-size:11.5px;color:var(--mid);">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:2px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    #{{ n.userId }}
+                  </span>
+                </div>
+                <span style="font-size:11.5px;color:var(--mid);flex-shrink:0;">{{ formatDate(n.createdAt) }}</span>
+              </div>
+              <p class="n-msg">{{ n.message }}</p>
+              <p *ngIf="n.referenceId" class="n-ref">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                Réf. {{ n.referenceType }} #{{ n.referenceId }}
+              </p>
+            </div>
+          </div>
+ 
+          <div *ngIf="notifPage()!.totalPages > 1" class="pager">
+            <span class="pager-info">Page {{ notifPage()!.currentPage + 1 }} / {{ notifPage()!.totalPages }} · {{ notifPage()!.totalElements }} au total</span>
+            <div class="pager-btns">
+              <button (click)="loadNotifications(notifCurrentPage() - 1)" [disabled]="notifCurrentPage() === 0" class="pager-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="vertical-align:-1px;"><polyline points="15 18 9 12 15 6"/></svg>
+                Précédent
+              </button>
+              <button (click)="loadNotifications(notifCurrentPage() + 1)" [disabled]="notifPage()!.last" class="pager-btn">
+                Suivant
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="vertical-align:-1px;"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+    </ng-container>
+ 
+  </main>
+</div>

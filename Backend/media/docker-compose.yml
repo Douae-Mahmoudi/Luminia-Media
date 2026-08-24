@@ -1,0 +1,37 @@
+services:
+
+  postgres-media:
+    image: postgres:17-alpine
+    container_name: media-db-container
+    environment:
+      - POSTGRES_DB=mediatheque_media
+      - POSTGRES_USER=user_admin
+      - POSTGRES_PASSWORD=password123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_media_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user_admin -d mediatheque_media"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  media-service:
+    build: .
+    container_name: media-service-app
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-media:5432/mediatheque_media
+      - SPRING_DATASOURCE_USERNAME=user_admin
+      - SPRING_DATASOURCE_PASSWORD=password123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - JWT_SECRET=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      postgres-media:
+        condition: service_healthy
+
+volumes:
+  postgres_media_data:

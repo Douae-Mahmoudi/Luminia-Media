@@ -1,0 +1,420 @@
+<div class="lm-root">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+.lm-root {
+  --blue:#3B5BDB;--blue-soft:#EEF2FF;--blue-mid:#C5D0FA;
+  --violet:#7048E8;--violet-soft:#F3F0FF;
+  --dark:#0D0F1A;--mid:#6B7080;--faint:#F0F1F5;
+  --border:rgba(13,15,26,0.07);--border-md:rgba(13,15,26,0.13);
+  --teal:#0C9670;--teal-soft:#EDFAF5;
+  --rose:#E03131;--rose-soft:#FFF0F0;--rose-mid:rgba(224,49,49,0.15);
+  --green:#0C9670;--green-soft:#EDFAF5;--green-mid:rgba(12,150,112,0.15);
+  --rs:10px;--rm:16px;--rl:22px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:#F7F7F9;
+  min-height:100vh;
+  color:var(--dark);
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+
+.fu1{animation:fadeUp .45s .04s ease both;}
+.fu2{animation:fadeUp .45s .12s ease both;}
+.fu3{animation:fadeUp .45s .22s ease both;}
+
+.lm-header{
+  background:rgba(247,247,249,.88);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+  height:64px;display:flex;align-items:center;
+  padding:0 40px;gap:28px;
+}
+.lm-logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;flex-shrink:0;}
+.logo-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#3B5BDB,#7048E8);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(59,91,219,.3);}
+.logo-text{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:var(--dark);letter-spacing:-.3px;}
+.logo-text span{color:var(--blue);}
+.lm-nav{display:flex;align-items:center;gap:2px;margin-left:12px;}
+.lm-nav-btn{background:none;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:500;color:var(--mid);padding:7px 14px;border-radius:var(--rs);transition:all .15s;}
+.lm-nav-btn:hover{color:var(--dark);background:rgba(13,15,26,.05);}
+.lm-nav-btn.active{color:var(--blue);background:var(--blue-soft);font-weight:600;}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:6px;}
+.icon-btn{width:36px;height:36px;border-radius:var(--rs);border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--mid);transition:all .15s;}
+.icon-btn:hover{background:var(--faint);color:var(--dark);}
+.btn-back{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:var(--rs);border:1.5px solid var(--border-md);background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;color:var(--mid);cursor:pointer;transition:all .15s;box-shadow:0 1px 3px rgba(13,15,26,.04);}
+.btn-back:hover{border-color:var(--blue-mid);color:var(--blue);background:var(--blue-soft);}
+
+.hero-banner{
+  position:relative;padding:40px 44px;
+  display:flex;align-items:center;gap:28px;
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#EEF2FF 0%,#F3F0FF 40%,#EEF2FF 70%,#F0FDF4 100%);}
+.hero-orb-1{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(59,91,219,.10) 0%,transparent 70%);top:-80px;right:80px;pointer-events:none;}
+.hero-orb-2{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(112,72,232,.08) 0%,transparent 70%);bottom:-40px;right:260px;pointer-events:none;}
+.hero-content{position:relative;z-index:1;display:flex;align-items:center;gap:24px;}
+.hero-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#3B5BDB,#7048E8);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:24px;font-weight:800;color:#fff;box-shadow:0 8px 24px rgba(59,91,219,.3);flex-shrink:0;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.hero-eyebrow-pulse{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:pulse 2s ease-in-out infinite;}
+.hero-name{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:var(--dark);letter-spacing:-.5px;margin:0 0 3px;}
+.hero-email{font-size:13.5px;color:var(--mid);font-weight:400;margin:0;}
+
+.lm-main{max-width:900px;margin:0 auto;padding:40px 40px 80px;}
+
+.alert{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:var(--rs);font-size:13px;font-weight:500;margin-bottom:16px;}
+.alert-success{background:var(--green-soft);border:1px solid var(--green-mid);color:var(--teal);}
+.alert-error{background:var(--rose-soft);border:1px solid var(--rose-mid);color:var(--rose);}
+.alert-close{background:none;border:none;cursor:pointer;color:currentColor;opacity:.6;display:flex;align-items:center;padding:0;transition:opacity .15s;}
+.alert-close:hover{opacity:1;}
+
+.tab-rail{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:28px;}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:600;color:var(--mid);padding:10px 16px;margin-bottom:-1px;transition:all .15s;letter-spacing:-.1px;}
+.tab-btn:hover{color:var(--dark);}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--rm);padding:28px;margin-bottom:20px;}
+.card-title{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--dark);letter-spacing:-.3px;margin:0 0 22px;display:flex;align-items:center;gap:8px;}
+.card-title-icon{width:32px;height:32px;border-radius:8px;background:var(--blue-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:16px;}
+.form-group:last-of-type{margin-bottom:0;}
+.form-label{font-size:11.5px;font-weight:700;color:var(--mid);letter-spacing:.04em;text-transform:uppercase;}
+.form-input{width:100%;border:1.5px solid var(--border-md);border-radius:var(--rs);padding:9px 13px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;color:var(--dark);background:#fff;outline:none;transition:border-color .15s,box-shadow .15s;box-sizing:border-box;}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,91,219,.10);}
+.form-input:disabled{background:var(--faint);color:var(--mid);cursor:not-allowed;}
+.form-textarea{resize:none;}
+.btn-primary{width:100%;padding:11px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,#3B5BDB 0%,#6741D9 100%);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .18s;box-shadow:0 2px 8px rgba(59,91,219,.28);margin-top:20px;}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,91,219,.38);}
+.btn-primary:disabled{opacity:.55;cursor:not-allowed;}
+.btn-danger{width:100%;padding:11px;border-radius:var(--rs);border:1.5px solid var(--rose-mid);background:var(--rose-soft);color:var(--rose);font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .18s;}
+.btn-danger:hover{background:#FFE0E0;border-color:rgba(224,49,49,.3);}
+
+.divider{height:1px;background:var(--border);margin:24px 0;}
+
+.contact-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-size:13.5px;color:var(--dark);}
+.contact-row:last-child{border-bottom:none;}
+.contact-icon{width:34px;height:34px;border-radius:8px;background:var(--blue-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+.about-text{font-size:13.5px;color:var(--mid);line-height:1.7;margin:0 0 16px;}
+.version-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--mid);letter-spacing:.04em;padding:4px 10px;border-radius:6px;background:var(--faint);border:1px solid var(--border);}
+
+.loading-wrap{display:flex;align-items:center;justify-content:center;padding:48px;gap:10px;color:var(--mid);font-size:13px;font-weight:500;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .7s linear infinite;}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+
+@media(max-width:700px){
+  .lm-header{padding:0 20px;}
+  .hero-banner{padding:28px 20px;}
+  .lm-main{padding:24px 20px 60px;}
+  .form-grid{grid-template-columns:1fr;}
+  .grid-2{grid-template-columns:1fr;}
+}
+</style>
+
+<header class="lm-header">
+    <a routerLink="/" class="flex items-center gap-2 no-underline flex-shrink-0">
+      <img src="logo.png" alt="Lumina Media Logo" class="h-16 w-auto" />
+    </a>
+
+  <nav class="lm-nav">
+    <button (click)="goBack()" class="lm-nav-btn">Découvrir</button>
+    <button class="lm-nav-btn active">Profil</button>
+  </nav>
+
+  <div class="hdr-right">
+    <button class="btn-back" (click)="goBack()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Retour
+    </button>
+  </div>
+</header>
+
+<div class="hero-banner fu1">
+  <div class="hero-bg"></div>
+  <div class="hero-orb-1"></div>
+  <div class="hero-orb-2"></div>
+  <div class="hero-content">
+    <div class="hero-avatar">{{ getInitials() }}</div>
+    <div>
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-pulse"></span>
+        Mon compte
+      </div>
+      <h1 class="hero-name">{{ profile()?.firstName }} {{ profile()?.lastName }}</h1>
+      <p class="hero-email">{{ profile()?.email }}</p>
+    </div>
+  </div>
+</div>
+
+<main class="lm-main">
+
+  <div *ngIf="success()" class="alert alert-success fu1">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      Profil mis à jour avec succès.
+    </div>
+  </div>
+
+  <div *ngIf="error()" class="alert alert-error fu1">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      {{ error() }}
+    </div>
+    <button (click)="error.set('')" class="alert-close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="tab-rail fu2">
+    <button (click)="activeTab = 'profile'" class="tab-btn" [class.active]="activeTab === 'profile'">
+      Profil
+    </button>
+    <button (click)="activeTab = 'security'" class="tab-btn" [class.active]="activeTab === 'security'">
+      Sécurité
+    </button>
+    <button (click)="activeTab = 'support'" class="tab-btn" [class.active]="activeTab === 'support'">
+      Aide &amp; Support
+    </button>
+  </div>
+
+  <div *ngIf="activeTab === 'profile'" class="fu3">
+
+    <div class="card">
+      <h2 class="card-title">
+        <div class="card-title-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        Informations personnelles
+      </h2>
+
+      <div *ngIf="loading()" class="loading-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round" class="spin">
+          <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+        </svg>
+        Chargement...
+      </div>
+
+      <form *ngIf="!loading()" (ngSubmit)="save()">
+        <div class="form-grid">
+          <div>
+            <label class="form-label">Prénom</label>
+            <input [(ngModel)]="form.firstName" name="firstName" type="text" class="form-input" placeholder="Votre prénom"/>
+          </div>
+          <div>
+            <label class="form-label">Nom</label>
+            <input [(ngModel)]="form.lastName" name="lastName" type="text" class="form-input" placeholder="Votre nom"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input [(ngModel)]="form.email" name="email" type="email" disabled class="form-input"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Téléphone</label>
+          <input [(ngModel)]="form.phone" name="phone" type="tel" placeholder="+212 6 12 34 56 78" class="form-input"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Bio</label>
+          <textarea [(ngModel)]="form.bio" name="bio" rows="3" placeholder="Quelques mots sur vous..." class="form-input form-textarea"></textarea>
+        </div>
+
+        <button type="submit" [disabled]="saving()" class="btn-primary">
+          <span *ngIf="!saving()" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            Sauvegarder
+          </span>
+          <span *ngIf="saving()" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="spin">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+            </svg>
+            Enregistrement...
+          </span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="activeTab === 'security'" class="fu3">
+
+    <div class="card">
+      <h2 class="card-title">
+        <div class="card-title-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        Changer le mot de passe
+      </h2>
+
+      <div *ngIf="passwordSuccess()" class="alert alert-success" style="margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Mot de passe modifié avec succès.
+        </div>
+      </div>
+
+      <div *ngIf="passwordError()" class="alert alert-error" style="margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          {{ passwordError() }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Mot de passe actuel</label>
+        <input [(ngModel)]="passwordForm.currentPassword" type="password" placeholder="••••••••" class="form-input"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Nouveau mot de passe</label>
+        <input [(ngModel)]="passwordForm.newPassword" type="password" placeholder="••••••••" class="form-input"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Confirmer le mot de passe</label>
+        <input [(ngModel)]="passwordForm.confirmPassword" type="password" placeholder="••••••••" class="form-input"/>
+      </div>
+
+      <button (click)="changePassword()" [disabled]="passwordSaving()" class="btn-primary">
+        <span *ngIf="!passwordSaving()" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Changer le mot de passe
+        </span>
+        <span *ngIf="passwordSaving()" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="spin">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+          </svg>
+          Changement...
+        </span>
+      </button>
+
+      <div class="divider"></div>
+
+      <button (click)="auth.logout()" class="btn-danger" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Se déconnecter
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="activeTab === 'support'" class="fu3">
+    <div class="grid-2">
+
+      <div class="card">
+        <h2 class="card-title">
+          <div class="card-title-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          Contact direct
+        </h2>
+
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <span>support&#64;luminamedia.com</span>
+        </div>
+
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <span>+212 6 12 34 56 78</span>
+        </div>
+
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <span>Oujda, Maroc</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">
+          <div class="card-title-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          À propos de Lumina Media
+        </h2>
+
+        <p class="about-text">
+          Lumina Media est une plateforme innovante de découverte et de partage de contenus culturels.
+          Films, livres, jeux vidéo, podcasts — notre mission est de vous aider à trouver vos prochains
+          coups de cœur grâce à des recommandations intelligentes et personnalisées.
+        </p>
+
+        <div class="divider"></div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span class="version-tag">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+            Version 1.0.0
+          </span>
+          <span style="font-size:11.5px;color:var(--mid);font-weight:500;">© 2026 Lumina Media</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+</div>

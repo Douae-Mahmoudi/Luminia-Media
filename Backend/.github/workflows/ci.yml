@@ -1,0 +1,254 @@
+
+name: CI Pipeline - Pfa-Backend
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build-auth-svc:
+    name: Build & Test Auth Service
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: mediatheque_auth
+          POSTGRES_USER: user_admin
+          POSTGRES_PASSWORD: password123
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '23'
+          distribution: 'temurin'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-auth-${{ hashFiles('auth-svc/auth-svc/**/pom.xml') }}
+      - name: Build, Test & SonarCloud
+        working-directory: ./auth-svc/auth-svc
+        run: mvn verify sonar:sonar
+          -Dsonar.projectKey=Douae-Mahmoudi_Backend-PFA
+          -Dsonar.organization=douae-mahmoudi
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/mediatheque_auth
+          SPRING_DATASOURCE_USERNAME: user_admin
+          SPRING_DATASOURCE_PASSWORD: password123
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/auth-svc:${{ github.sha }} ./auth-svc/auth-svc
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/auth-svc:${{ github.sha }}
+
+  build-media-svc:
+    name: Build & Test Media Service
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: mediatheque_media
+          POSTGRES_USER: user_admin
+          POSTGRES_PASSWORD: password123
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '23'
+          distribution: 'temurin'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-media-${{ hashFiles('media/**/pom.xml') }}
+      - name: Build, Test & SonarCloud
+        working-directory: ./media
+        run: mvn verify sonar:sonar
+          -Dsonar.projectKey=Douae-Mahmoudi_Backend-PFA
+          -Dsonar.organization=douae-mahmoudi
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/mediatheque_media
+          SPRING_DATASOURCE_USERNAME: user_admin
+          SPRING_DATASOURCE_PASSWORD: password123
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/media-svc:${{ github.sha }} ./media
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/media-svc:${{ github.sha }}
+
+  build-ai-svc:
+    name: Build & Test AI Service
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        working-directory: ./ai-svc
+        run: pip install -r requirements.txt
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ai-svc:${{ github.sha }} ./ai-svc
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/ai-svc:${{ github.sha }}
+
+  build-notification-svc:
+    name: Build & Test Notification Service
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: mediatheque_notification
+          POSTGRES_USER: user_admin
+          POSTGRES_PASSWORD: password123
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '23'
+          distribution: 'temurin'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-notification-${{ hashFiles('notification-svcc/**/pom.xml') }}
+      - name: Build, Test & SonarCloud
+        working-directory: ./notification-svcc
+        run: mvn verify sonar:sonar
+          -Dsonar.projectKey=Douae-Mahmoudi_Backend-PFA
+          -Dsonar.organization=douae-mahmoudi
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+          -Dsonar.exclusions=**/NotificationSvcApplication.java
+          -Dsonar.coverage.exclusions=**/NotificationSvcApplication.java
+          -Dmaven.test.failure.ignore=true
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/mediatheque_notification
+          SPRING_DATASOURCE_USERNAME: user_admin
+          SPRING_DATASOURCE_PASSWORD: password123
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/notification-svc:${{ github.sha }} ./notification-svcc
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/notification-svc:${{ github.sha }}
+
+  build-collection-svc:
+    name: Build & Test Collection Service
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: mediatheque_collection
+          POSTGRES_USER: user_admin
+          POSTGRES_PASSWORD: password123
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '23'
+          distribution: 'temurin'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-collection-${{ hashFiles('Collection/**/pom.xml') }}
+      - name: Build, Test & SonarCloud
+        working-directory: ./Collection/demo
+        run: mvn verify sonar:sonar
+          -Dsonar.projectKey=Douae-Mahmoudi_Backend-PFA
+          -Dsonar.organization=douae-mahmoudi
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+          -Dsonar.exclusions=**/DemoApplication.java
+          -Dsonar.coverage.exclusions=**/DemoApplication.java
+          -Dmaven.test.failure.ignore=true
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/mediatheque_collection
+          SPRING_DATASOURCE_USERNAME: user_admin
+          SPRING_DATASOURCE_PASSWORD: password123
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/collection-svc:${{ github.sha }} ./Collection/demo
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/collection-svc:${{ github.sha }}

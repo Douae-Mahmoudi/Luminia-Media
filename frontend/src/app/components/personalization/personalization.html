@@ -1,0 +1,111 @@
+<section class="bg-white w-full py-20 px-8 lg:px-20 xl:px-32 overflow-hidden">
+  <div class="flex flex-col lg:flex-row items-center w-full gap-0">
+ 
+    <div class="flex-1 pr-0 lg:pr-20 min-w-0">
+ 
+      <div class="inline-flex items-center gap-2 text-blue-600 text-sm font-bold tracking-widest uppercase mb-8">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+        </svg>
+        Propulsé par l'IA
+      </div>
+ 
+      <h2 class="text-6xl font-extrabold text-gray-900 leading-tight mb-2 tracking-tight">
+        Personnalisé
+      </h2>
+      <h2 class="text-6xl font-extrabold leading-tight mb-8 tracking-tight"
+          style="background: linear-gradient(90deg, #2563eb, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        Rien que pour Vous
+      </h2>
+ 
+      <p class="text-gray-500 text-lg leading-relaxed mb-12 max-w-sm">
+        Notre moteur de recommandation IA apprend vos préférences et vous connecte
+        avec le contenu que vous allez adorer. Plus vous explorez, plus il devient intelligent.
+      </p>
+ 
+      <div class="flex flex-col gap-7">
+        <div
+          *ngFor="let feature of features; let i = index"
+          (mouseenter)="activeFeature.set(i)"
+          (mouseleave)="activeFeature.set(-1)"
+          class="flex items-start gap-5 cursor-default transition-all duration-200">
+ 
+          <div
+            class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
+            [ngClass]="activeFeature() === i
+              ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 scale-110'
+              : 'bg-blue-50 text-blue-500'">
+            <lucide-icon
+              [img]="feature.icon"
+              [size]="26"
+              [strokeWidth]="1.75">
+            </lucide-icon>
+          </div>
+ 
+          <div>
+            <p class="text-lg font-bold mb-1 transition-colors duration-200"
+               [ngClass]="activeFeature() === i ? 'text-blue-600' : 'text-gray-900'">
+              {{ feature.title }}
+            </p>
+            <p class="text-sm text-gray-400 leading-relaxed max-w-xs">
+              {{ feature.desc }}
+            </p>
+          </div>
+ 
+        </div>
+      </div>
+ 
+    </div>
+ 
+    <div class="flex-1 relative w-full min-h-[460px] mt-16 lg:mt-0" style="min-width:0;">
+ 
+      <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <line x1="55%" y1="50%" x2="32%" y2="15%"  stroke="#e5e7eb" stroke-width="1.5"/>
+        <line x1="55%" y1="50%" x2="82%" y2="12%"  stroke="#e5e7eb" stroke-width="1.5"/>
+        <line x1="55%" y1="50%" x2="16%" y2="50%"  stroke="#e5e7eb" stroke-width="1.5"/>
+        <line x1="55%" y1="50%" x2="94%" y2="48%"  stroke="#e5e7eb" stroke-width="1.5"/>
+        <line x1="55%" y1="50%" x2="28%" y2="83%"  stroke="#e5e7eb" stroke-width="1.5"/>
+        <line x1="55%" y1="50%" x2="84%" y2="81%"  stroke="#e5e7eb" stroke-width="1.5"/>
+      </svg>
+ 
+      <div class="absolute rounded-full pointer-events-none"
+           style="width:120px; height:120px; top:50%; left:55%; transform:translate(-50%,-50%);
+                  background:radial-gradient(circle, rgba(37,99,235,0.13) 0%, transparent 70%);
+                  filter:blur(12px);"></div>
+ 
+      <div class="absolute rounded-full"
+           style="width:82px; height:82px; top:50%; left:55%; transform:translate(-50%,-50%);
+                  background:radial-gradient(circle at 38% 38%, rgba(147,197,253,0.55), rgba(219,234,254,0.25));
+                  border:1px solid rgba(147,197,253,0.45);
+                  box-shadow:0 0 0 20px rgba(59,130,246,0.04);"></div>
+ 
+      <div class="absolute rounded-full cursor-pointer transition-transform duration-200 hover:scale-110"
+           style="width:58px;height:58px;top:15%;left:32%;transform:translate(-50%,-50%);
+                  background:#7c3aed;box-shadow:0 8px 24px rgba(124,58,237,0.4);"></div>
+ 
+      <div class="absolute rounded-full cursor-pointer transition-transform duration-200 hover:scale-110"
+           style="width:48px;height:48px;top:12%;left:82%;transform:translate(-50%,-50%);
+                  background:#f59e0b;box-shadow:0 8px 24px rgba(245,158,11,0.4);"></div>
+ 
+      <div class="absolute rounded-full cursor-pointer transition-transform duration-200 hover:scale-110"
+           style="width:48px;height:48px;top:50%;left:16%;transform:translate(-50%,-50%);
+                  background:#f59e0b;box-shadow:0 8px 24px rgba(245,158,11,0.4);"></div>
+ 
+      <div class="absolute rounded-full cursor-pointer transition-transform duration-200 hover:scale-110"
+           style="width:44px;height:44px;top:48%;left:94%;transform:translate(-50%,-50%);
+                  background:#0d9488;box-shadow:0 8px 24px rgba(13,148,136,0.4);"></div>
+ 
+      <div class="absolute rounded-full cursor-pointer transition-transform duration-200 hover:scale-110"
+           style="width:50px;height:50px;top:83%;left:28%;transform:translate(-50%,-50%);
+                  background:#7c3aed;box-shadow:0 8px 24px rgba(124,58,237,0.4);"></div>
+ 
+      <div class="absolute rounded-full cursor-pointer transition-transform duration-200 hover:scale-110"
+           style="width:46px;height:46px;top:81%;left:84%;transform:translate(-50%,-50%);
+                  background:#10b981;box-shadow:0 8px 24px rgba(16,185,129,0.4);"></div>
+ 
+    </div>
+  </div>
+</section>
+ 

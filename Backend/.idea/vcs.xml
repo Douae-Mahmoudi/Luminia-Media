@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Collection" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Collection/demo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ai-svc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/auth-svc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/auth-svc/auth-svc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/media" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/notification-svcc" vcs="Git" />
+  </component>
+</project>

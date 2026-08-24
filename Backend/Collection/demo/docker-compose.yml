@@ -1,0 +1,36 @@
+services:
+  postgres-collection:
+    image: postgres:17-alpine
+    container_name: collection-db-container
+    environment:
+      - POSTGRES_DB=collection_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=ppp
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_collection_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d collection_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  collection-service:
+    build: .
+    container_name: collection-service-app
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-collection:5432/collection_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=ppp
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - JWT_SECRET=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 # ✅ Même logique que Media
+    depends_on:
+      postgres-collection:
+        condition: service_healthy
+
+volumes:
+  postgres_collection_data:

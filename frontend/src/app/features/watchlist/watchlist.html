@@ -1,0 +1,486 @@
+<div class="lm-root" style="font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;background:#F7F7F9;">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+    .lm-root {
+      --blue:#3B5BDB; --blue-soft:#EEF2FF; --blue-mid:#C5D0FA;
+      --violet:#7048E8; --violet-soft:#F3F0FF;
+      --teal:#0C9670; --teal-soft:#EDFAF5;
+      --amber:#C87300; --amber-soft:#FFF4DE;
+      --red:#DC2626; --red-soft:#FFF0F0;
+      --dark:#0D0F1A; --mid:#6B7080; --faint:#F0F1F5;
+      --border:rgba(13,15,26,0.07);
+      --rs:10px; --rm:16px; --rl:22px; --rxl:28px;
+    }
+
+    @keyframes shimmer    { 0%{background-position:-700px 0}100%{background-position:700px 0} }
+    @keyframes fadeUp     { from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)} }
+    @keyframes blobFloat  { 0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-14px) scale(1.03)} }
+    @keyframes spin       { to{transform:rotate(360deg)} }
+    @keyframes cardPop    { from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)} }
+
+    .shimmer {
+      background:linear-gradient(90deg,#F0F1F5 25%,#E8EAF0 50%,#F0F1F5 75%);
+      background-size:700px 100%;
+      animation:shimmer 1.5s infinite;
+    }
+    .fade-up  { animation:fadeUp .5s ease both; }
+    .fade-up-2{ animation:fadeUp .5s .08s ease both; }
+    .fade-up-3{ animation:fadeUp .5s .16s ease both; }
+
+    /* ══ HEADER ══ */
+    .lm-header {
+      background:rgba(247,247,249,.88);
+      backdrop-filter:blur(24px) saturate(180%);
+      -webkit-backdrop-filter:blur(24px) saturate(180%);
+      border-bottom:1px solid var(--border);
+      position:sticky;top:0;z-index:100;
+      height:64px;display:flex;align-items:center;padding:0 40px;gap:20px;
+    }
+    .lm-logo { display:flex;align-items:center;gap:10px;flex-shrink:0; }
+    .logo-icon {
+      width:34px;height:34px;border-radius:10px;
+      background:linear-gradient(135deg,#3B5BDB,#7048E8);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 12px rgba(59,91,219,.28);
+    }
+    .logo-text { font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:var(--dark);letter-spacing:-.3px; }
+    .logo-text span { color:var(--blue); }
+    .back-btn {
+      display:flex;align-items:center;gap:7px;padding:7px 14px;
+      border-radius:var(--rs);border:1px solid var(--border);background:#fff;
+      font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;
+      color:var(--mid);cursor:pointer;transition:all .15s;
+      box-shadow:0 1px 4px rgba(13,15,26,.05);
+    }
+    .back-btn:hover { border-color:var(--blue-mid);color:var(--blue);background:var(--blue-soft); }
+    .hdr-right { margin-left:auto;display:flex;align-items:center;gap:8px; }
+    .avatar-chip {
+      display:flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;
+      border-radius:999px;background:var(--faint);border:1px solid var(--border);
+    }
+    .avatar-circle {
+      width:28px;height:28px;border-radius:50%;
+      background:linear-gradient(135deg,#3B5BDB,#7048E8);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:#fff;
+    }
+    .avatar-name { font-size:13px;font-weight:600;color:var(--dark); }
+
+    .hero {
+      position:relative;overflow:hidden;
+      background:#0D0F1A;
+      min-height:280px;display:flex;align-items:flex-end;
+    }
+    .hero-mesh {
+      position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse 60% 80% at 10% 50%, rgba(59,91,219,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 60% at 90% 20%, rgba(112,72,232,.14) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 70% at 55% 90%, rgba(12,150,112,.10) 0%, transparent 60%);
+    }
+    .hero-noise {
+      position:absolute;inset:0;opacity:.035;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size:180px;
+    }
+    .hero-grid {
+      position:absolute;inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:48px 48px;
+    }
+    .hero-orb-l {
+      position:absolute;width:280px;height:280px;border-radius:50%;
+      background:radial-gradient(circle,rgba(59,91,219,.12) 0%,transparent 70%);
+      top:-60px;left:80px;
+      animation:blobFloat 9s ease-in-out infinite;pointer-events:none;
+    }
+    .hero-orb-r {
+      position:absolute;width:200px;height:200px;border-radius:50%;
+      background:radial-gradient(circle,rgba(112,72,232,.10) 0%,transparent 70%);
+      bottom:40px;right:160px;
+      animation:blobFloat 12s ease-in-out infinite 3s;pointer-events:none;
+    }
+    .hero-gradient {
+      position:absolute;inset:0;
+      background:linear-gradient(0deg,rgba(13,15,26,.95) 0%,rgba(13,15,26,.3) 60%,transparent 100%);
+    }
+    .hero-inner {
+      position:relative;z-index:2;
+      max-width:1160px;width:100%;margin:0 auto;
+      padding:56px 40px 40px;
+    }
+    .hero-eyebrow {
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 14px;border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(8px);
+      font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:rgba(255,255,255,.55);
+      margin-bottom:16px;
+    }
+    .hero-title {
+      font-family:'Sora',sans-serif;
+      font-size:2.4rem;font-weight:800;
+      color:#fff;line-height:1.1;letter-spacing:-.06em;
+      margin:0 0 12px;
+    }
+    .hero-title span { color:var(--blue-mid); }
+    .hero-sub { font-size:13.5px;color:rgba(255,255,255,.45);margin:0 0 24px;line-height:1.6; }
+    .hero-chips { display:flex;align-items:center;gap:8px;flex-wrap:wrap; }
+    .hero-chip {
+      display:inline-flex;align-items:center;gap:6px;
+      padding:7px 16px;border-radius:999px;
+      background:rgba(255,255,255,.09);backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.14);
+      font-size:12.5px;font-weight:600;color:rgba(255,255,255,.7);
+    }
+    .hero-chip.active {
+      background:rgba(59,91,219,.25);
+      border-color:rgba(99,131,219,.4);
+      color:#C5D0FA;
+    }
+    .hero-chip svg { opacity:.8; }
+
+    .lm-body { max-width:1160px;margin:0 auto;padding:36px 40px 80px; }
+
+    .section-row {
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:24px;
+    }
+    .section-label {
+      font-family:'Sora',sans-serif;font-size:13px;font-weight:700;
+      color:var(--mid);letter-spacing:.06em;text-transform:uppercase;
+    }
+    .count-badge {
+      padding:4px 12px;border-radius:999px;
+      background:var(--blue-soft);
+      font-size:12px;font-weight:700;color:var(--blue);
+    }
+
+    .media-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+      gap:20px;
+    }
+
+    .media-card {
+      background:#fff;border-radius:var(--rl);
+      border:1px solid var(--border);
+      overflow:hidden;cursor:pointer;
+      box-shadow:0 2px 12px rgba(13,15,26,.05);
+      transition:transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s ease;
+      animation:cardPop .4s ease both;
+    }
+    .media-card:hover {
+      transform:translateY(-5px) scale(1.012);
+      box-shadow:0 20px 48px rgba(13,15,26,.12);
+    }
+
+    .card-poster {
+      position:relative;overflow:hidden;
+      height:200px;background:#E8EAF0;
+    }
+    .card-poster img {
+      width:100%;height:100%;object-fit:cover;
+      transition:transform .35s ease;
+      display:block;
+    }
+    .media-card:hover .card-poster img { transform:scale(1.05); }
+    .poster-ph {
+      width:100%;height:100%;
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    .poster-overlay {
+      position:absolute;inset:0;
+      background:linear-gradient(180deg,transparent 40%,rgba(13,15,26,.55) 100%);
+      pointer-events:none;
+    }
+
+    .type-pill {
+      position:absolute;top:10px;left:10px;
+      padding:4px 10px;border-radius:7px;
+      font-size:10px;font-weight:700;letter-spacing:.05em;
+      backdrop-filter:blur(8px);
+    }
+    .tp-FILM    { background:rgba(59,91,219,.85);color:#fff; }
+    .tp-BOOK    { background:rgba(200,115,0,.9);color:#fff; }
+    .tp-GAME    { background:rgba(112,72,232,.85);color:#fff; }
+    .tp-PODCAST { background:rgba(12,150,112,.9);color:#fff; }
+
+    .remove-btn {
+      position:absolute;top:10px;right:10px;
+      width:28px;height:28px;border-radius:50%;
+      border:none;background:rgba(255,255,255,.92);
+      backdrop-filter:blur(6px);
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;color:#9CA3AF;
+      transition:all .15s;
+      box-shadow:0 2px 8px rgba(0,0,0,.12);
+    }
+    .remove-btn:hover { background:#fff;color:var(--red);transform:scale(1.1); }
+
+    .poster-badges {
+      position:absolute;bottom:10px;left:10px;right:10px;
+      display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+    }
+    .state-badge {
+      display:inline-flex;align-items:center;gap:4px;
+      padding:3px 9px;border-radius:6px;
+      font-size:10px;font-weight:700;letter-spacing:.03em;
+      backdrop-filter:blur(8px);
+    }
+    .sb-watchlist { background:rgba(59,91,219,.82);color:#C5D0FA; }
+    .sb-favorite  { background:rgba(200,115,0,.82);color:#FFE4A0; }
+
+    .card-body { padding:14px 16px 16px; }
+    .card-title {
+      font-family:'Sora',sans-serif;
+      font-size:13.5px;font-weight:700;
+      color:var(--dark);letter-spacing:-.15px;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      margin:0 0 3px;
+    }
+    .card-author {
+      font-size:11.5px;color:var(--mid);
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      margin:0 0 12px;
+    }
+    .card-footer {
+      display:flex;align-items:center;justify-content:space-between;
+      gap:6px;
+    }
+    .card-year { font-size:11px;color:var(--mid);font-weight:600; }
+    .status-dot {
+      display:inline-flex;align-items:center;gap:4px;
+      font-size:10.5px;font-weight:700;
+    }
+    .status-dot.ok  { color:var(--teal); }
+    .status-dot.bad { color:var(--red); }
+    .dot {
+      width:6px;height:6px;border-radius:50%;
+      display:inline-block;
+      background:currentColor;
+    }
+
+    .skeleton-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+      gap:20px;
+    }
+    .skel-card { background:#fff;border-radius:var(--rl);border:1px solid var(--border);overflow:hidden; }
+
+    .empty-wrap {
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:80px 24px;text-align:center;
+    }
+    .empty-icon-ring {
+      width:80px;height:80px;border-radius:24px;
+      background:linear-gradient(135deg,var(--blue-soft),var(--violet-soft));
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:20px;
+      box-shadow:0 8px 32px rgba(59,91,219,.12);
+    }
+    .empty-title {
+      font-family:'Sora',sans-serif;font-size:18px;font-weight:800;
+      color:var(--dark);letter-spacing:-.3px;margin:0 0 8px;
+    }
+    .empty-sub {
+      font-size:13.5px;color:var(--mid);
+      max-width:300px;line-height:1.7;margin:0 0 28px;
+    }
+    .discover-btn {
+      display:inline-flex;align-items:center;gap:8px;
+      padding:12px 28px;border-radius:var(--rm);border:none;
+      background:linear-gradient(135deg,#3B5BDB,#6741D9);
+      color:#fff;font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:14px;font-weight:700;cursor:pointer;
+      transition:all .2s;
+      box-shadow:0 4px 16px rgba(59,91,219,.35);
+    }
+    .discover-btn:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(59,91,219,.42); }
+
+    @media(max-width:640px){
+      .lm-header { padding:0 16px; }
+      .hero-inner { padding:36px 16px 28px; }
+      .hero-title { font-size:1.75rem; }
+      .lm-body { padding:24px 16px 60px; }
+      .media-grid,.skeleton-grid { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+
+  <header class="lm-header">
+    <a routerLink="/" class="flex items-center gap-2 no-underline flex-shrink-0">
+      <img src="logo.png" alt="Lumina Media Logo" class="h-16 w-auto" />
+    </a>
+
+    <button (click)="goDiscover()" class="back-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Retour
+    </button>
+
+    <div class="hdr-right">
+      <div class="avatar-chip">
+        <div class="avatar-circle">{{ (username || '?').charAt(0).toUpperCase() }}</div>
+        <span class="avatar-name">{{ username }}</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-mesh"></div>
+    <div class="hero-noise"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-orb-l"></div>
+    <div class="hero-orb-r"></div>
+    <div class="hero-gradient"></div>
+
+    <div class="hero-inner fade-up">
+      <div class="hero-eyebrow">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+        Liste de lecture
+      </div>
+
+      <h1 class="hero-title">Ma <span>liste</span></h1>
+      <p class="hero-sub">Tous vos médias sauvegardés, prêts à être explorés.</p>
+
+      <div class="hero-chips">
+        <div class="hero-chip active">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          {{ items().length }} média{{ items().length !== 1 ? 's' : '' }} sauvegardé{{ items().length !== 1 ? 's' : '' }}
+        </div>
+        <div *ngIf="username" class="hero-chip">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          {{ username }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="lm-body">
+
+    <div *ngIf="!loading() && items().length > 0" class="section-row fade-up-2">
+      <span class="section-label">Mes médias</span>
+      <span class="count-badge">{{ items().length }}</span>
+    </div>
+
+    <div *ngIf="loading()" class="skeleton-grid">
+      <div *ngFor="let _ of skeletons" class="skel-card">
+        <div class="shimmer" style="height:200px;"></div>
+        <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;">
+          <div class="shimmer" style="border-radius:6px;height:13px;width:75%;"></div>
+          <div class="shimmer" style="border-radius:6px;height:11px;width:50%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading() && items().length > 0" class="media-grid">
+      <div *ngFor="let item of items(); let i = index"
+           class="media-card"
+           [style.animation-delay]="(i * 45) + 'ms'"
+           (click)="navigate(item)">
+
+        <div class="card-poster">
+
+          <div style="position:absolute;inset:0;" class="shimmer"></div>
+
+          <img *ngIf="item.imageUrl"
+               [src]="item.imageUrl" [alt]="item.title"
+               (load)="$event.target['style'].opacity='1'"
+               style="opacity:0;transition:opacity .35s;position:relative;z-index:1;"/>
+
+          <div *ngIf="!item.imageUrl" class="poster-ph" style="position:relative;z-index:1;"
+               [style.background]="'linear-gradient(135deg,' + typeAccent(item.type) + '22, #E8EAF0)'">
+            <svg *ngIf="item.type==='FILM'" width="44" height="44" viewBox="0 0 24 24" fill="none"
+                 [attr.stroke]="typeAccent(item.type)" stroke-width="1.2" opacity=".5">
+              <rect x="2" y="2" width="20" height="20" rx="2.18"/>
+              <line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+            </svg>
+            <svg *ngIf="item.type==='BOOK'" width="44" height="44" viewBox="0 0 24 24" fill="none"
+                 [attr.stroke]="typeAccent(item.type)" stroke-width="1.2" opacity=".5">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <svg *ngIf="item.type==='GAME'" width="44" height="44" viewBox="0 0 24 24" fill="none"
+                 [attr.stroke]="typeAccent(item.type)" stroke-width="1.2" opacity=".5">
+              <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258A4 4 0 0 0 17.32 5z"/>
+              <line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/>
+            </svg>
+            <svg *ngIf="item.type==='PODCAST'" width="44" height="44" viewBox="0 0 24 24" fill="none"
+                 [attr.stroke]="typeAccent(item.type)" stroke-width="1.2" opacity=".5">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </div>
+
+          <div class="poster-overlay" style="z-index:2;"></div>
+
+          <span class="type-pill" [ngClass]="'tp-' + item.type" style="z-index:3;">
+            {{ typeLabel(item.type) }}
+          </span>
+
+          <button (click)="remove($event, item)" class="remove-btn" title="Retirer de ma liste" style="z-index:3;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+
+          <div class="poster-badges" style="z-index:3;">
+            <span class="state-badge sb-watchlist">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+              Ma liste
+            </span>
+          </div>
+
+        </div>
+
+        <div class="card-body">
+          <p class="card-title">{{ item.title }}</p>
+          <p class="card-author">{{ item.author }}</p>
+          <div class="card-footer">
+            <span *ngIf="item.releaseYear" class="card-year">{{ item.releaseYear }}</span>
+            <span class="status-dot" [ngClass]="item.status === 'AVAILABLE' ? 'ok' : 'bad'">
+              <span class="dot"></span>
+              {{ item.status === 'AVAILABLE' ? 'Disponible' : 'Indisponible' }}
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div *ngIf="!loading() && items().length === 0" class="empty-wrap fade-up">
+      <div class="empty-icon-ring">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <h2 class="empty-title">Votre liste est vide</h2>
+      <p class="empty-sub">
+        Explorez la bibliothèque et ajoutez des médias à votre liste pour les retrouver ici.
+      </p>
+      <button (click)="goDiscover()" class="discover-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        Découvrir des médias
+      </button>
+    </div>
+
+  </div>
+</div>
